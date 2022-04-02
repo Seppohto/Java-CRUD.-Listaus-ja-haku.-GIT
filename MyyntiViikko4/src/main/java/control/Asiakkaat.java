@@ -24,7 +24,7 @@ public class Asiakkaat extends HttpServlet {
        
     public Asiakkaat() {
         super();
-        System.out.println("Autot.Autot()");
+        System.out.println("Asiakkaat.Asiakkaat()");
     }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -42,8 +42,22 @@ public class Asiakkaat extends HttpServlet {
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
 		System.out.println("Asiakkaat.doPost()");
+		JSONObject jsonObj = new JsonStrToObj().convert(request); //Muutetaan kutsun mukana tuleva json-string json-objektiksi			
+		Asiakas asiakas = new Asiakas();
+		asiakas.setAsiakas_id(jsonObj.getInt("asiakas_id"));
+		asiakas.setEtunimi(jsonObj.getString("etunimi"));
+		asiakas.setSukunimi(jsonObj.getString("sukunimi"));
+		asiakas.setPuhelin(jsonObj.getString("puhelin"));
+		asiakas.setSposti(jsonObj.getString("sposti"));
+		response.setContentType("application/json");
+		PrintWriter out = response.getWriter();
+		Dao dao = new Dao();			
+		if(dao.lisaaAsiakas(asiakas)){ //metodi palauttaa true/false
+			out.println("{\"response\":1}");  //Asiakkaan lis‰‰minen onnistui {"response":1}
+		}else{
+			out.println("{\"response\":0}");  //Asiakkaan lis‰‰minen ep‰onnistui {"response":0}
+		}		
 	}
 
 	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -10,6 +10,9 @@
 .oikealle{
 	text-align: right;
 }
+#uusiAsiakas {
+	cursor: pointer
+}
 </style>
 </head>
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
@@ -17,6 +20,9 @@
 <div class="w3-container">
 <table class="w3-table w3-striped w3-border" id="listaus">
 	<thead>	
+		<tr>
+			<th colspan="4" class="oikealle"><span  id="uusiAsiakas">Uusi asiakas</span></th>
+		</tr>	
 		<tr>
 			<th class="oikealle">Hakusana:</th>
 			<th colspan="2"><input type="text" id="hakusana"></th>
@@ -36,6 +42,11 @@
 </div>
 <script>
 $(document).ready(function(){
+	
+	
+	$("#uusiAsiakas").click(function(){
+		document.location="lisaaasiakas.jsp";
+	});
 	
 	haeAsiakkaat();
 	$("#hakunappi").click(function(){		
