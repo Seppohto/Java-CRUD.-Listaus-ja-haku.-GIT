@@ -1,4 +1,5 @@
 package model.dao;
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -17,6 +18,7 @@ public class Dao {
     	Connection con = null;    	
     	String path = System.getProperty("catalina.base");    	
     	path = path.substring(0, path.indexOf(".metadata")).replace("\\", "/"); //Eclipsessa
+    	//path =  new File(System.getProperty("user.dir")).getParentFile().toString() +"\\"; //Testauksessa
     	//path += "/webapps/"; //Tuotannossa. Laita tietokanta webapps-kansioon
     	String url = "jdbc:sqlite:"+path+db;    	
     	try {	       
@@ -108,13 +110,13 @@ public class Dao {
 		}				
 		return paluuArvo;
 	}
-	public boolean poistaAsiakas(String rekNo){ //Oikeassa el‰m‰ss‰ tiedot ensisijaisesti merkit‰‰n poistetuksi.
+	public boolean poistaAsiakas(String asiakas_id){ //Oikeassa el‰m‰ss‰ tiedot ensisijaisesti merkit‰‰n poistetuksi.
 		boolean paluuArvo=true;
 		sql="DELETE FROM asiakkaat WHERE asiakas_id=?";						  
 		try {
 			con = yhdista();
 			stmtPrep=con.prepareStatement(sql); 
-			stmtPrep.setString(1, rekNo);			
+			stmtPrep.setString(1, asiakas_id);			
 			stmtPrep.executeUpdate();
 	        con.close();
 		} catch (Exception e) {				
@@ -160,6 +162,23 @@ public class Dao {
 			stmtPrep.setString(4, asiakas.getPuhelin());
 			stmtPrep.setString(5, asiakas.getSposti());
 			stmtPrep.setInt(6, asiakas_id);
+			stmtPrep.executeUpdate();
+	        con.close();
+		} catch (Exception e) {				
+			e.printStackTrace();
+			paluuArvo=false;
+		}				
+		return paluuArvo;
+	}
+	public boolean poistaKaikkiAsiakkaat (String pwd){
+		boolean paluuArvo=true;
+		if(pwd!="nimda") {
+			return false;
+		}
+		sql="DELETE FROM asiakkaat";						  
+		try {
+			con = yhdista();
+			stmtPrep=con.prepareStatement(sql);
 			stmtPrep.executeUpdate();
 	        con.close();
 		} catch (Exception e) {				
