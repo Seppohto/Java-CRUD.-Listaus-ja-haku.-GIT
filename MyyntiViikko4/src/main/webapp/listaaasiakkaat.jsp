@@ -33,7 +33,7 @@
 		<tr class="oikealle">
 			<th class="oikealle">Hakusana:</th>
 			<th colspan="3"><input type="text" id="hakusana"></th>
-			<th colspan="1"><input type="button" value="hae" id="hakunappi"></th>
+			<th colspan="3"><input type="button" value="hae" id="hakunappi"></th>
 		</tr>			
 		<tr>
 			<th>Asiakas_id</th>
@@ -79,6 +79,7 @@ function haeAsiakkaat(){
         	htmlStr+="<td>"+field.sukunimi+"</td>";
         	htmlStr+="<td>"+field.puhelin+"</td>";
         	htmlStr+="<td>"+field.sposti+"</td>";
+        	htmlStr+="<td><a href='muutaasiakas.jsp?asiakas_id="+field.asiakas_id+"'>Muuta</a>&nbsp;"; 
         	htmlStr+="<td><span class='poista' onclick=poista('"+field.asiakas_id+"')>Poista</span></td>";
         	htmlStr+="</tr>";
         	$("#listaus tbody").append(htmlStr);
@@ -91,7 +92,7 @@ function poista(asiakas_id){
 	        if(result.response==0){
 	        	$("#ilmo").html("Asiakkaan poisto epäonnistui.");
 	        }else if(result.response==1){
-	        	$("#rivi_"+asiakas_id).css("background-color", "red !important");
+	        	$("#rivi_"+asiakas_id).css("background-color", "red");
 	        	alert("Asiakkaan " + asiakas_id +" poisto onnistui.");
 				haeAsiakkaat();        	
 			}
